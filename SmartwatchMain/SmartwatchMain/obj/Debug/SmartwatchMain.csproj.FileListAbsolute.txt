@@ -1,0 +1,10 @@
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\obj\Debug\SmartwatchMain.csprojResolveAssemblyReference.cache
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\obj\Debug\SmartwatchMain.Form1.resources
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\obj\Debug\SmartwatchMain.Properties.Resources.resources
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\obj\Debug\SmartwatchMain.csproj.GenerateResource.cache
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\obj\Debug\SmartwatchMain.csproj.CoreCompileInputs.cache
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\bin\Debug\SmartwatchMain.exe.config
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\bin\Debug\SmartwatchMain.exe
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\bin\Debug\SmartwatchMain.pdb
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\obj\Debug\SmartwatchMain.exe
+C:\Users\jimmy\Source\Repos\Smartwatch-OGO\SmartwatchMain\SmartwatchMain\obj\Debug\SmartwatchMain.pdb
