@@ -13,10 +13,10 @@ namespace SmartwatchMain
     public partial class Form1 : Form
     {
         //Declaring fields
-        private int mode = 0;
+        //private int mode = 0;
 
         //Initializing objects
-        Timer t = new Timer();
+        Timer mainclock = new Timer();
 
         public Form1()
         {
@@ -25,11 +25,11 @@ namespace SmartwatchMain
         private void Form1_Load(object sender, EventArgs e)
         {
             //timer interval
-            t.Interval = 1000; // 1000ms == 1s
+            mainclock.Interval = 1000; // 1000ms == 1s
 
-            t.Tick += new EventHandler(this.t_Tick);
+            mainclock.Tick += new EventHandler(this.t_Tick);
 
-            t.Start();
+            mainclock.Start();
         }
 
         //Timer event handler
@@ -62,18 +62,38 @@ namespace SmartwatchMain
                 time += mm;
             }
 
-            //update text label
+            //update the text label
             label1.Text = time;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            tabControl1.SelectedTab = tabPage2;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //Needs the time update shit
+        }
 
+        private void switchTab1(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage1;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage3;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage2;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage1;
         }
     }
 }
