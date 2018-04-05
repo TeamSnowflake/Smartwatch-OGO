@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Xml;
+using System.Net;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +20,7 @@ namespace SmartwatchMain
         int ss = DateTime.Now.Second; //Idem
         int timemode = 0; //Mode 0 means default system time and mode 1 means a custom time
         int timepress = 0; //0 means that only the hours will be edited and 1 means that the minutes will be edited
+        string location = "Amsterdam"; //Setting the default location
 
         //Initializing objects
         Timer mainclock = new Timer();
@@ -35,9 +38,31 @@ namespace SmartwatchMain
             mainclock.Tick += new EventHandler(this.t_Tick);
 
             mainclock.Start();
+
+            weatherUpdate();
         }
 
-        //Timer event handler
+        private async void weatherUpdate()
+        {
+            string weburl = "http://api.openweathermap.org/data/2.5/weather?q=" + location + "&APPID=4e515071564d7c30d6a0107caade3f8a&mode=xml"; //Emmen needs to be replaced with location
+
+            var xml = await new WebClient().DownloadStringTaskAsync(new Uri(weburl));
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            string szTemp = doc.DocumentElement.SelectSingleNode("temperature").Attributes["value"].Value;
+            string humi = doc.DocumentElement.SelectSingleNode("humidity").Attributes["value"].Value;
+
+            //Celsius conversion "metric"
+            double temp = double.Parse(szTemp) - 273.16;
+
+            //Update the labels
+            label2.Text = "Temperature: " + temp.ToString("N2") + "° Celcius";
+            label3.Text = "Humidity: " + humi + "%";
+            label6.Text = "Current location: " + location;
+        }
+
+
         private void t_Tick(object sender, EventArgs e)
         {
             if (timemode == 1) //if the time had changed to mode 1 (which means it is a custom time) it will still be updated every minute
@@ -88,7 +113,6 @@ namespace SmartwatchMain
             //update the text label
             label1.Text = time;
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             //Control structure to check in which time "edit" mode we are, 1 = incrementhours, 2 = increment minutes and with 0 we need to switch tabs
@@ -135,12 +159,6 @@ namespace SmartwatchMain
             {
                 timepress = 0;
             }
-        }
-
-        private void switchTab1(object sender, EventArgs e)
-        {
-            //Tabswitcher
-            tabControl1.SelectedTab = tabPage1;
         }
 
         private void button3_Click(object sender, EventArgs e)
