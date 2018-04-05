@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Xml;
 using System.Net;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SmartwatchMain
@@ -20,7 +13,10 @@ namespace SmartwatchMain
         int ss = DateTime.Now.Second; //Idem
         int timemode = 0; //Mode 0 means default system time and mode 1 means a custom time
         int timepress = 0; //0 means that only the hours will be edited and 1 means that the minutes will be edited
+        double temp = 0.00;
         string location = "Amsterdam"; //Setting the default location
+        int unitsetting = 0; //Default unitsetting (0) is used for the metric system, unitsetting (1) is used for the imperial system
+        string unittype = "° Celsius";
 
         //Initializing objects
         Timer mainclock = new Timer();
@@ -44,6 +40,8 @@ namespace SmartwatchMain
 
         private async void weatherUpdate()
         {
+            textBox1.Text = location;
+
             string weburl = "http://api.openweathermap.org/data/2.5/weather?q=" + location + "&APPID=4e515071564d7c30d6a0107caade3f8a&mode=xml"; //Emmen needs to be replaced with location
 
             var xml = await new WebClient().DownloadStringTaskAsync(new Uri(weburl));
@@ -53,15 +51,39 @@ namespace SmartwatchMain
             string szTemp = doc.DocumentElement.SelectSingleNode("temperature").Attributes["value"].Value;
             string humi = doc.DocumentElement.SelectSingleNode("humidity").Attributes["value"].Value;
 
-            //Celsius conversion "metric"
-            double temp = double.Parse(szTemp) - 273.16;
+            //Control structure for the temp conversion
+            if (unitsetting == 0)
+            {
+                unittype = "° Celcius";
+                temp = double.Parse(szTemp) - 273.16;
+            }
+            else if (unitsetting == 1) //Imperial system
+            {
+                unittype = "° Fahrenheit";
+                temp = double.Parse(szTemp) * 9/5 - 459.67;
+            }
 
             //Update the labels
-            label2.Text = "Temperature: " + temp.ToString("N2") + "° Celcius";
+            label2.Text = "Temperature: " + temp.ToString("N2") + unittype;
             label3.Text = "Humidity: " + humi + "%";
             label6.Text = "Current location: " + location;
         }
 
+        private void ckb_Click(object sender, EventArgs e)
+        {
+            CheckBox activeCheckBox = sender as CheckBox;
+            foreach (Control c in Controls)
+            {
+                CheckBox checkBox = c as CheckBox;
+                if (checkBox != null)
+                {
+                    if (!checkBox.Equals(activeCheckBox))
+                    { checkBox.Checked = !activeCheckBox.Checked; }
+                    else
+                    { checkBox.Checked = true; }
+                }
+            }
+        }
 
         private void t_Tick(object sender, EventArgs e)
         {
@@ -177,6 +199,29 @@ namespace SmartwatchMain
         {
             //Tabswitcher
             tabControl1.SelectedTab = tabPage1;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //Needs to save the location and unit type and at the end return to the displayweather tab.
+
+            location = textBox1.Text;
+
+            weatherUpdate();
+
+            //Controlstructure to check for the unittype
+            if (radioButton1.Checked == true)
+            {
+                //System is imperial
+                unitsetting = 1;
+            }
+            else if (radioButton2.Checked == true)
+            {
+                //System is metric
+                unitsetting = 0;
+            }
+
+            tabControl1.SelectedTab = tabPage2;
         }
     }
 }
