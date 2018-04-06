@@ -11,7 +11,6 @@ namespace SmartwatchMain
         int hh = DateTime.Now.Hour; //setting default system time
         int mm = DateTime.Now.Minute; //Idem
         int ss = DateTime.Now.Second; //Idem
-        string time = ""; //Set default time string
         int timemode = 0; //Mode 0 means default system time and mode 1 means a custom time
         int timepress = 0; //0 means that only the hours will be edited and 1 means that the minutes will be edited
         double temp; // Setting the default temp
@@ -76,6 +75,8 @@ namespace SmartwatchMain
 
         private void t_Tick(object sender, EventArgs e)
         {
+            string time = ""; //Set default time string
+
             if (timemode == 1) //if the time had changed to mode 1 (which means it is a custom time) it will still be updated every minute
             {
                 //Making sure the time will be updated every second

@@ -58,7 +58,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(114, 9);
+            this.label1.Location = new System.Drawing.Point(107, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(358, 135);
             this.label1.TabIndex = 0;
@@ -123,7 +123,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(581, 213);
+            this.tabPage2.Size = new System.Drawing.Size(581, 215);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "DisplayWeather";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -197,7 +197,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(581, 213);
+            this.tabPage3.Size = new System.Drawing.Size(581, 215);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "UpdateWeather";
             this.tabPage3.UseVisualStyleBackColor = true;
