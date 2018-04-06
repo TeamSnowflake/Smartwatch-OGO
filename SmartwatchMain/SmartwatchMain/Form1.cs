@@ -11,12 +11,13 @@ namespace SmartwatchMain
         int hh = DateTime.Now.Hour; //setting default system time
         int mm = DateTime.Now.Minute; //Idem
         int ss = DateTime.Now.Second; //Idem
+        string time = ""; //Set default time string
         int timemode = 0; //Mode 0 means default system time and mode 1 means a custom time
         int timepress = 0; //0 means that only the hours will be edited and 1 means that the minutes will be edited
-        double temp = 0.00;
+        double temp; // Setting the default temp
         string location = "Amsterdam"; //Setting the default location
         int unitsetting = 0; //Default unitsetting (0) is used for the metric system, unitsetting (1) is used for the imperial system
-        string unittype = "° Celsius";
+        string unittype = "° Celsius"; //Setting the default unittype
 
         //Initializing objects
         Timer mainclock = new Timer();
@@ -42,8 +43,10 @@ namespace SmartwatchMain
         {
             textBox1.Text = location;
 
-            string weburl = "http://api.openweathermap.org/data/2.5/weather?q=" + location + "&APPID=4e515071564d7c30d6a0107caade3f8a&mode=xml"; //Emmen needs to be replaced with location
+            //Build the weather API
+            string weburl = "http://api.openweathermap.org/data/2.5/weather?q=" + location + "&APPID=4e515071564d7c30d6a0107caade3f8a&mode=xml"; //API
 
+            //Retrieve the values from the API (xml)
             var xml = await new WebClient().DownloadStringTaskAsync(new Uri(weburl));
 
             XmlDocument doc = new XmlDocument();
@@ -52,43 +55,30 @@ namespace SmartwatchMain
             string humi = doc.DocumentElement.SelectSingleNode("humidity").Attributes["value"].Value;
 
             //Control structure for the temp conversion
-            if (unitsetting == 0)
+            if (unitsetting == 0) //Metric system
             {
                 unittype = "° Celcius";
-                temp = double.Parse(szTemp) - 273.16;
+                //Parsing the string to double, works on all systems now
+                temp = double.Parse(szTemp, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) - 273.16;
             }
             else if (unitsetting == 1) //Imperial system
             {
                 unittype = "° Fahrenheit";
-                temp = double.Parse(szTemp) * 9/5 - 459.67;
+                //Parsing the string to double, works on all systems now
+                temp = double.Parse(szTemp, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) * 9/5 - 459.67;
             }
 
-            //Update the labels
-            label2.Text = "Temperature: " + temp.ToString("N2") + unittype;
+            //Update the labels 
+            label2.Text = "Temperature: " + temp.ToString("#.##") + unittype;
             label3.Text = "Humidity: " + humi + "%";
             label6.Text = "Current location: " + location;
-        }
-
-        private void ckb_Click(object sender, EventArgs e)
-        {
-            CheckBox activeCheckBox = sender as CheckBox;
-            foreach (Control c in Controls)
-            {
-                CheckBox checkBox = c as CheckBox;
-                if (checkBox != null)
-                {
-                    if (!checkBox.Equals(activeCheckBox))
-                    { checkBox.Checked = !activeCheckBox.Checked; }
-                    else
-                    { checkBox.Checked = true; }
-                }
-            }
         }
 
         private void t_Tick(object sender, EventArgs e)
         {
             if (timemode == 1) //if the time had changed to mode 1 (which means it is a custom time) it will still be updated every minute
             {
+                //Making sure the time will be updated every second
                 ss = DateTime.Now.Second;
                 if (ss > 58)
                 {
@@ -108,11 +98,8 @@ namespace SmartwatchMain
                 hh = DateTime.Now.Hour; 
                 mm = DateTime.Now.Minute; 
             }
-
-            //time
-            string time = "";
-
-            //nul toevoegen wanneer getallen kleiner zijn dan 0
+            
+            //nul vooraan toevoegen wanneer getallen kleiner zijn dan 10
             if (hh < 10)
             {
                 time += "0" + hh;
@@ -220,7 +207,6 @@ namespace SmartwatchMain
                 //System is metric
                 unitsetting = 0;
             }
-
             tabControl1.SelectedTab = tabPage2;
         }
     }
