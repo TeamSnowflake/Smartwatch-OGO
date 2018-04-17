@@ -1,2 +1,3 @@
 # Smartwatch-OGO
-OGO Assignment
+OGO programming assignment
+
